@@ -47,3 +47,72 @@ DoublyList.prototype.add = function(value) {
 
 	return node;
 }
+
+DoublyList.prototype.searchNodeAt = function(position) {
+	var currentNode = this.head,
+		length = this.length,
+		count = 1,
+		message = {failure: "Failure: non-existent node in this list"};
+
+	//check for invalid position
+	if (length === 0 || position < 1 || position > length) {
+		throw new Error(message.failure);
+	}
+
+	//valid position
+	while (count < position) {
+		currentNode = curentNode.next;
+		count++;
+	}
+	return currentNode;
+}
+
+DoublyList.prototype.remove = function(position) {
+	var currentNode = this.head,
+		length = this._length,
+		count = 1,
+		message = {failure: "Failure: non-existent node in this list", success: "Success: node removed!"},
+		beforeNodeToDelete = null,
+		afterNodeToDelete = null;
+		nodeToDelete = null,
+		deletedNode = null;
+
+	// check for invalid position
+	if (length === 0 || position < 1 || position > length) {
+		throw new Error(message.failure);
+	}
+
+	//if first node is removed
+	if (position === 1) {
+		this.head = currentNode.next;
+		//if there is a second node
+		if (!this.head) {
+			this.head.previous = null;
+		//if there is no second node
+		} else {
+			this.tail = null;
+		}
+	//if the last node is removed
+	} else if (position === this._length) {
+		this.tail = this.tail.previous;
+		this.tail.next = null;
+	// if a middle node is removed
+	} else {
+		while (count < position) {
+			currentNode = currentNode.next;
+			count++;
+		}
+
+		beforeNodeToDelete = currentNode.previous;
+		nodeToDelete = currentNode;
+		afterNodeToDelete = currentNode.next;
+
+		beforeNodeToDelete.next = afterNodeToDelete;
+		afterNodeToDelete.previous = beforeNodeToDelete;
+		deletedNode = nodeToDelete;
+		nodeToDelete = null;
+	}
+	this._length--;
+
+	return message.success;
+};
