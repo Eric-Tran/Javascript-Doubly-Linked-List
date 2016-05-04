@@ -74,6 +74,7 @@ DoublyList.prototype.remove = function(position) {
 		message = {failure: "Failure: non-existent node in this list"},
 		beforeNodeToDelete = null,
 		nodeToDelete = null,
+		afterNodeToDelete = null;
 		deletedNode = null;
 
 	// check for invalid position
@@ -85,18 +86,20 @@ DoublyList.prototype.remove = function(position) {
 	if (position === 1) {
 		deletedNode = this.head;
 		this.head = currentNode.next;
-		//if there is a second node
+		//if there is only one node
 		if (!this.head) {
-			this.head.previous = null;
-		//if there is no second node
-		} else {
 			this.tail = null;
+		//if there is more than one node
+		} else {
+			this.head.previous = null;
 		}
+
 	//if the last node is removed
 	} else if (position === this._length) {
 		deletedNode = this.tail;
 		this.tail = this.tail.previous;
 		this.tail.next = null;
+
 	// if a middle node is removed
 	} else {
 		while (count < position) {
@@ -114,6 +117,5 @@ DoublyList.prototype.remove = function(position) {
 		nodeToDelete = null;
 	}
 	this._length--;
-
 	return deletedNode;
 };
